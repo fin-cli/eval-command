@@ -1,8 +1,8 @@
 <?php
 
-use WP_CLI\Utils;
+use FP_CLI\Utils;
 
-class Eval_Command extends WP_CLI_Command {
+class Eval_Command extends FP_CLI_Command {
 
 	/**
 	 * Executes arbitrary PHP code.
@@ -15,25 +15,25 @@ class Eval_Command extends WP_CLI_Command {
 	 * <php-code>
 	 * : The code to execute, as a string.
 	 *
-	 * [--skip-wordpress]
-	 * : Execute code without loading WordPress.
+	 * [--skip-finpress]
+	 * : Execute code without loading FinPress.
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     # Display WordPress content directory.
-	 *     $ wp eval 'echo WP_CONTENT_DIR;'
-	 *     /var/www/wordpress/wp-content
+	 *     # Display FinPress content directory.
+	 *     $ fp eval 'echo FP_CONTENT_DIR;'
+	 *     /var/www/finpress/fp-content
 	 *
 	 *     # Generate a random number.
-	 *     $ wp eval 'echo rand();' --skip-wordpress
+	 *     $ fp eval 'echo rand();' --skip-finpress
 	 *     479620423
 	 *
-	 * @when before_wp_load
+	 * @when before_fp_load
 	 */
 	public function __invoke( $args, $assoc_args ) {
 
-		if ( null === Utils\get_flag_value( $assoc_args, 'skip-wordpress' ) ) {
-			WP_CLI::get_runner()->load_wordpress();
+		if ( null === Utils\get_flag_value( $assoc_args, 'skip-finpress' ) ) {
+			FP_CLI::get_runner()->load_finpress();
 		}
 
 		eval( $args[0] );

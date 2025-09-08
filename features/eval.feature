@@ -1,9 +1,9 @@
 Feature: Evaluating PHP code and files.
 
   Scenario: Basics
-    Given a WP install
+    Given a FP install
 
-    When I run `wp eval 'var_dump(defined("WP_CONTENT_DIR"));'`
+    When I run `fp eval 'var_dump(defined("FP_CONTENT_DIR"));'`
     Then STDOUT should contain:
       """
       bool(true)
@@ -12,10 +12,10 @@ Feature: Evaluating PHP code and files.
     Given a script.php file:
       """
       <?php
-      WP_CLI::line( implode( ' ', $args ) );
+      FP_CLI::line( implode( ' ', $args ) );
       """
 
-    When I run `wp eval-file script.php foo bar`
+    When I run `fp eval-file script.php foo bar`
     Then STDOUT should contain:
       """
       foo bar
@@ -25,10 +25,10 @@ Feature: Evaluating PHP code and files.
       """
       #! /bin/bash
       <?php
-      WP_CLI::line( implode( ' ', $args ) );
+      FP_CLI::line( implode( ' ', $args ) );
       """
 
-    When I run `wp eval-file script.sh foo bar`
+    When I run `fp eval-file script.sh foo bar`
     Then STDOUT should contain:
       """
       foo bar
@@ -38,38 +38,38 @@ Feature: Evaluating PHP code and files.
       #!
       """
 
-  Scenario: Eval without WordPress install
+  Scenario: Eval without FinPress install
     Given an empty directory
 
-    When I try `wp eval 'var_dump(defined("WP_CONTENT_DIR"));'`
+    When I try `fp eval 'var_dump(defined("FP_CONTENT_DIR"));'`
     Then STDERR should contain:
       """
-      Error: This does not seem to be a WordPress install
+      Error: This does not seem to be a FinPress install
       """
     And the return code should be 1
 
-    When I run `wp eval 'var_dump(defined("WP_CONTENT_DIR"));' --skip-wordpress`
+    When I run `fp eval 'var_dump(defined("FP_CONTENT_DIR"));' --skip-finpress`
     Then STDOUT should contain:
       """
       bool(false)
       """
 
-  Scenario: Eval file without WordPress install
+  Scenario: Eval file without FinPress install
     Given an empty directory
     And a script.php file:
       """
       <?php
-      var_dump(defined("WP_CONTENT_DIR"));
+      var_dump(defined("FP_CONTENT_DIR"));
       """
 
-    When I try `wp eval-file script.php`
+    When I try `fp eval-file script.php`
     Then STDERR should contain:
       """
-      Error: This does not seem to be a WordPress install
+      Error: This does not seem to be a FinPress install
       """
     And the return code should be 1
 
-    When I run `wp eval-file script.php --skip-wordpress`
+    When I run `fp eval-file script.php --skip-finpress`
     Then STDOUT should contain:
       """
       bool(false)
@@ -80,26 +80,26 @@ Feature: Evaluating PHP code and files.
     And a script.php file:
       """
       <?php
-      WP_CLI::line( implode( ' ', $args ) );
+      FP_CLI::line( implode( ' ', $args ) );
       """
 
-    When I run `cat script.php | wp eval-file - x y z --skip-wordpress`
+    When I run `cat script.php | fp eval-file - x y z --skip-finpress`
     Then STDOUT should contain:
       """
       x y z
       """
 
   @require-php-7.0
-  Scenario: Eval stdin with use-include parameter without WordPress install
+  Scenario: Eval stdin with use-include parameter without FinPress install
     Given an empty directory
     And a script.php file:
       """
       <?php
       declare(strict_types=1);
-      WP_CLI::line( implode( ' ', $args ) );
+      FP_CLI::line( implode( ' ', $args ) );
       """
 
-    When I try `cat script.php | wp eval-file - foo bar --skip-wordpress --use-include`
+    When I try `cat script.php | fp eval-file - foo bar --skip-finpress --use-include`
     Then STDERR should be:
       """
       Error: "-" and "--use-include" parameters cannot be used at the same time
@@ -107,16 +107,16 @@ Feature: Evaluating PHP code and files.
     And the return code should be 1
 
   @require-php-7.0
-  Scenario: Eval file with use-include parameter without WordPress install
+  Scenario: Eval file with use-include parameter without FinPress install
     Given an empty directory
     And a script.php file:
       """
       <?php
       declare(strict_types=1);
-      WP_CLI::line( implode( ' ', $args ) );
+      FP_CLI::line( implode( ' ', $args ) );
       """
 
-    When I run `wp eval-file script.php foo bar --skip-wordpress --use-include`
+    When I run `fp eval-file script.php foo bar --skip-finpress --use-include`
     Then STDOUT should contain:
       """
       foo bar
@@ -124,14 +124,14 @@ Feature: Evaluating PHP code and files.
 
   @require-php-7.0
   Scenario: Eval stdin with use-include parameter
-    Given a WP install
+    Given a FP install
     And a script.php file:
       """
       <?php
       declare(strict_types=1);
-      WP_CLI::line( implode( ' ', $args ) );
+      FP_CLI::line( implode( ' ', $args ) );
       """
-    When I try `cat script.php | wp eval-file - foo bar --use-include`
+    When I try `cat script.php | fp eval-file - foo bar --use-include`
     Then STDERR should be:
       """
       Error: "-" and "--use-include" parameters cannot be used at the same time
@@ -140,15 +140,15 @@ Feature: Evaluating PHP code and files.
 
   @require-php-7.0
   Scenario: Eval file with use-include parameter
-    Given a WP install
+    Given a FP install
     And a script.php file:
       """
       <?php
       declare(strict_types=1);
-      WP_CLI::line( implode( ' ', $args ) );
+      FP_CLI::line( implode( ' ', $args ) );
       """
 
-    When I run `wp eval-file script.php foo bar --use-include`
+    When I run `fp eval-file script.php foo bar --use-include`
     Then STDOUT should contain:
       """
       foo bar
@@ -162,7 +162,7 @@ Feature: Evaluating PHP code and files.
       echo __FILE__;
       """
 
-    When I run `wp eval-file script.php --skip-wordpress`
+    When I run `fp eval-file script.php --skip-finpress`
     Then STDOUT should contain:
       """
       /script.php
@@ -188,7 +188,7 @@ Feature: Evaluating PHP code and files.
       echo "' foo __FILE__ bar '";
       """
 
-    When I run `wp eval-file script.php --skip-wordpress`
+    When I run `fp eval-file script.php --skip-finpress`
     Then STDOUT should contain:
       """
       __FILE__
@@ -210,7 +210,7 @@ Feature: Evaluating PHP code and files.
       echo ' __FILE__ => ' . __FILE__;
       """
 
-    When I run `wp eval-file script.php --skip-wordpress`
+    When I run `fp eval-file script.php --skip-finpress`
     Then STDOUT should contain:
       """
       __FILE__ =>
@@ -236,10 +236,10 @@ Feature: Evaluating PHP code and files.
       <?php
       echo __DIR__ . '/script.php' . PHP_EOL;
       """
-    And I run `wp eval-file script.php --skip-wordpress`
+    And I run `fp eval-file script.php --skip-finpress`
     And save STDOUT as {FILE_OUTPUT}
 
-    When I run `wp eval-file dir_script.php --skip-wordpress`
+    When I run `fp eval-file dir_script.php --skip-finpress`
     Then STDOUT should be:
       """
       {FILE_OUTPUT}
