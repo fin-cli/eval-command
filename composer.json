@@ -1,8 +1,8 @@
 {
-    "name": "fp-cli/eval-command",
-    "type": "fp-cli-package",
+    "name": "fin-cli/eval-command",
+    "type": "fin-cli-package",
     "description": "Executes arbitrary PHP code or files.",
-    "homepage": "https://github.com/fp-cli/eval-command",
+    "homepage": "https://github.com/fin-cli/eval-command",
     "license": "MIT",
     "authors": [
         {
@@ -12,10 +12,10 @@
         }
     ],
     "require": {
-        "fp-cli/fp-cli": "^2.12"
+        "fin-cli/fin-cli": "^2.12"
     },
     "require-dev": {
-        "fp-cli/fp-cli-tests": "^5"
+        "fin-cli/fin-cli-tests": "^5"
     },
     "config": {
         "process-timeout": 7200,
@@ -65,6 +65,6 @@
         ]
     },
     "support": {
-        "issues": "https://github.com/fp-cli/eval-command/issues"
+        "issues": "https://github.com/fin-cli/eval-command/issues"
     }
 }

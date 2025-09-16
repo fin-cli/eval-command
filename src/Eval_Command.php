@@ -1,8 +1,8 @@
 <?php
 
-use FP_CLI\Utils;
+use FIN_CLI\Utils;
 
-class Eval_Command extends FP_CLI_Command {
+class Eval_Command extends FIN_CLI_Command {
 
 	/**
 	 * Executes arbitrary PHP code.
@@ -21,19 +21,19 @@ class Eval_Command extends FP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Display FinPress content directory.
-	 *     $ fp eval 'echo FP_CONTENT_DIR;'
-	 *     /var/www/finpress/fp-content
+	 *     $ fin eval 'echo FIN_CONTENT_DIR;'
+	 *     /var/www/finpress/fin-content
 	 *
 	 *     # Generate a random number.
-	 *     $ fp eval 'echo rand();' --skip-finpress
+	 *     $ fin eval 'echo rand();' --skip-finpress
 	 *     479620423
 	 *
-	 * @when before_fp_load
+	 * @when before_fin_load
 	 */
 	public function __invoke( $args, $assoc_args ) {
 
 		if ( null === Utils\get_flag_value( $assoc_args, 'skip-finpress' ) ) {
-			FP_CLI::get_runner()->load_finpress();
+			FIN_CLI::get_runner()->load_finpress();
 		}
 
 		eval( $args[0] );

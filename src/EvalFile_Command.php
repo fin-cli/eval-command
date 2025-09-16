@@ -1,8 +1,8 @@
 <?php
 
-use FP_CLI\Utils;
+use FIN_CLI\Utils;
 
-class EvalFile_Command extends FP_CLI_Command {
+class EvalFile_Command extends FIN_CLI_Command {
 
 	/**
 	 * Regular expression pattern to match the shell shebang.
@@ -31,29 +31,29 @@ class EvalFile_Command extends FP_CLI_Command {
 	 * [--use-include]
 	 * : Process the provided file via include instead of evaluating its contents.
 	 *
-	 * @when before_fp_load
+	 * @when before_fin_load
 	 *
 	 * ## EXAMPLES
 	 *
 	 *     # Execute file my-code.php and pass value1 and value2 arguments.
 	 *     # Access arguments in $args array ($args[0] = value1, $args[1] = value2).
-	 *     $ fp eval-file my-code.php value1 value2
+	 *     $ fin eval-file my-code.php value1 value2
 	 */
 	public function __invoke( $args, $assoc_args ) {
 		$file = array_shift( $args );
 
 		if ( '-' !== $file && ! file_exists( $file ) ) {
-			FP_CLI::error( "'$file' does not exist." );
+			FIN_CLI::error( "'$file' does not exist." );
 		}
 
 		$use_include = Utils\get_flag_value( $assoc_args, 'use-include', false );
 
 		if ( '-' === $file && $use_include ) {
-				FP_CLI::error( '"-" and "--use-include" parameters cannot be used at the same time' );
+				FIN_CLI::error( '"-" and "--use-include" parameters cannot be used at the same time' );
 		}
 
 		if ( null === Utils\get_flag_value( $assoc_args, 'skip-finpress' ) ) {
-			FP_CLI::get_runner()->load_finpress();
+			FIN_CLI::get_runner()->load_finpress();
 		}
 
 		self::execute_eval( $file, $args, $use_include );

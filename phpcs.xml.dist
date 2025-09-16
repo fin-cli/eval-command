@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="FP-CLI-eval">
-	<description>Custom ruleset for FP-CLI eval-command</description>
+<ruleset name="FIN-CLI-eval">
+	<description>Custom ruleset for FIN-CLI eval-command</description>
 
 	<!--
 	#############################################################################
@@ -24,11 +24,11 @@
 
 	<!--
 	#############################################################################
-	USE THE FP_CLI_CS RULESET
+	USE THE FIN_CLI_CS RULESET
 	#############################################################################
 	-->
 
-	<rule ref="FP_CLI_CS">
+	<rule ref="FIN_CLI_CS">
 		<!-- Running code through eval is the point of this command. -->
 		<exclude name="Squiz.PHP.Eval.Discouraged"/>
 	</rule>
@@ -48,8 +48,8 @@
 	<rule ref="FinPress.NamingConventions.PrefixAllGlobals">
 		<properties>
 			<property name="prefixes" type="array">
-				<element value="FP_CLI\Eval"/><!-- Namespaces. -->
-				<element value="fpcli_eval"/><!-- Global variables and such. -->
+				<element value="FIN_CLI\Eval"/><!-- Namespaces. -->
+				<element value="fincli_eval"/><!-- Global variables and such. -->
 			</property>
 		</properties>
 	</rule>
